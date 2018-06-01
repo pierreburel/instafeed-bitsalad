@@ -26,6 +26,7 @@ You need to create an account on [BitSalad.co](http://www.bitsalad.co).
 * values for `clientId` and `userId` options can be found in your [BitSalad.co](http://www.bitsalad.co) feed url: `https://api2.bitsalad.co/feeds/<cliendId>?ids=<userId>` ;
 * no more `accessToken` option since [bitsalad.co](http://www.bitsalad.co) doesn't need one ;
 * no more `get` option (only user), same for `tagName`, `locationId` ;
+* no more pagination (`next()` and `hasNext()` methods) ;
 * no more tests since I'm too lazy.
 
 ## Credits
