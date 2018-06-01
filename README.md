@@ -3,7 +3,7 @@ instafeed.js
 
 This is a fork of [instafeed.js](https://github.com/stevenschobert/instafeed.js) which uses [BitSalad.co](http://www.bitsalad.co) API instead of Instagram. User feed only.
 
-**NOTE**: I created this fork to fix existing projects using Instafeed since Instagram changed their API. You'd better should use [BitSalad.co](http://www.bitsalad.co)'s [salad-spinner](https://github.com/bitsalad/salad-spinner) if you're starting from scratch.
+**NOTE**: I created this fork to fix existing projects using Instafeed since Instagram changed their API. You'd better use [BitSalad.co](http://www.bitsalad.co)'s [salad-spinner](https://github.com/bitsalad/salad-spinner) if you're starting from scratch.
 
 ## Installation
 
