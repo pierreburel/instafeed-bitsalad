@@ -7,7 +7,6 @@
       var option, value;
       this.options = {
         target: 'instafeed',
-        get: 'popular',
         resolution: 'thumbnail',
         sortBy: 'none',
         links: true,
@@ -24,28 +23,13 @@
       this.unique = this._genKey();
     }
 
-    Instafeed.prototype.hasNext = function() {
-      return typeof this.context.nextUrl === 'string' && this.context.nextUrl.length > 0;
-    };
-
-    Instafeed.prototype.next = function() {
-      if (!this.hasNext()) {
-        return false;
-      }
-      return this.run(this.context.nextUrl);
-    };
-
     Instafeed.prototype.run = function(url) {
       var header, instanceName, script;
       if (typeof this.options.clientId !== 'string') {
-        if (typeof this.options.accessToken !== 'string') {
-          throw new Error("Missing clientId or accessToken.");
-        }
+        throw new Error("Missing clientId.");
       }
-      if (typeof this.options.accessToken !== 'string') {
-        if (typeof this.options.clientId !== 'string') {
-          throw new Error("Missing clientId or accessToken.");
-        }
+      if (typeof this.options.userId !== 'string') {
+        throw new Error("Missing userId.");
       }
       if ((this.options.before != null) && typeof this.options.before === 'function') {
         this.options.before.call(this);
@@ -73,15 +57,7 @@
           throw new Error('Invalid JSON response');
         }
       }
-      if (response.meta.code !== 200) {
-        if ((this.options.error != null) && typeof this.options.error === 'function') {
-          this.options.error.call(this, response.meta.error_message);
-          return false;
-        } else {
-          throw new Error("Error from Instagram: " + response.meta.error_message);
-        }
-      }
-      if (response.data.length === 0) {
+      if (response.length === 0) {
         if ((this.options.error != null) && typeof this.options.error === 'function') {
           this.options.error.call(this, 'No images were returned from Instagram');
           return false;
@@ -92,10 +68,6 @@
       if ((this.options.success != null) && typeof this.options.success === 'function') {
         this.options.success.call(this, response);
       }
-      this.context.nextUrl = '';
-      if (response.pagination != null) {
-        this.context.nextUrl = response.pagination.next_url;
-      }
       if (this.options.sortBy !== 'none') {
         if (this.options.sortBy === 'random') {
           sortSettings = ['', 'random'];
@@ -105,25 +77,25 @@
         reverse = sortSettings[0] === 'least' ? true : false;
         switch (sortSettings[1]) {
           case 'random':
-            response.data.sort(function() {
+            response.sort(function() {
               return 0.5 - Math.random();
             });
             break;
           case 'recent':
-            response.data = this._sortBy(response.data, 'created_time', reverse);
+            response = this._sortBy(response, 'created_time', reverse);
             break;
           case 'liked':
-            response.data = this._sortBy(response.data, 'likes.count', reverse);
+            response = this._sortBy(response, 'likes.count', reverse);
             break;
           case 'commented':
-            response.data = this._sortBy(response.data, 'comments.count', reverse);
+            response = this._sortBy(response, 'comments.count', reverse);
             break;
           default:
             throw new Error("Invalid option for sortBy: '" + this.options.sortBy + "'.");
         }
       }
       if ((typeof document !== "undefined" && document !== null) && this.options.mock === false) {
-        images = response.data;
+        images = response;
         parsedLimit = parseInt(this.options.limit, 10);
         if ((this.options.limit != null) && images.length > parsedLimit) {
           images = images.slice(0, parsedLimit);
@@ -237,42 +209,10 @@
     };
 
     Instafeed.prototype._buildUrl = function() {
-      var base, endpoint, final;
-      base = "https://api.instagram.com/v1";
-      switch (this.options.get) {
-        case "popular":
-          endpoint = "media/popular";
-          break;
-        case "tagged":
-          if (!this.options.tagName) {
-            throw new Error("No tag name specified. Use the 'tagName' option.");
-          }
-          endpoint = "tags/" + this.options.tagName + "/media/recent";
-          break;
-        case "location":
-          if (!this.options.locationId) {
-            throw new Error("No location specified. Use the 'locationId' option.");
-          }
-          endpoint = "locations/" + this.options.locationId + "/media/recent";
-          break;
-        case "user":
-          if (!this.options.userId) {
-            throw new Error("No user specified. Use the 'userId' option.");
-          }
-          endpoint = "users/" + this.options.userId + "/media/recent";
-          break;
-        default:
-          throw new Error("Invalid option for get: '" + this.options.get + "'.");
-      }
-      final = base + "/" + endpoint;
-      if (this.options.accessToken != null) {
-        final += "?access_token=" + this.options.accessToken;
-      } else {
-        final += "?client_id=" + this.options.clientId;
-      }
-      if (this.options.limit != null) {
-        final += "&count=" + this.options.limit;
-      }
+      var base, final;
+      base = "https://api2.bitsalad.co";
+      final = base + "/feeds/" + this.options.clientId;
+      final += "?ids=" + this.options.userId;
       final += "&callback=instafeedCache" + this.unique + ".parse";
       return final;
     };
