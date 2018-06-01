@@ -1,19 +1,19 @@
-instafeed-bitsalad
+instafeed.js
 ============
 
-A drop-in solution for using [Instafeed](https://github.com/stevenschobert/instafeed.js) with [BitSalad.co](http://www.bitsalad.co) API instead of Instagram. User feed only.
+This is a fork of [instafeed.js](https://github.com/stevenschobert/instafeed.js) which uses [BitSalad.co](http://www.bitsalad.co) API instead of Instagram. User feed only.
 
 **NOTE**: I created this fork to fix existing projects using Instafeed since Instagram changed their API. You'd better should use [BitSalad.co](http://www.bitsalad.co)'s [salad-spinner](https://github.com/bitsalad/salad-spinner) if you're starting from scratch.
 
 ## Installation
 
-instafeed-bitsalad is available on NPM:
+Install this fork with NPM instead of the original `instafeed.js` package:
 
 ```sh
-npm install instafeed-bitsalad
+npm install https://github.com/pierreburel/instafeed.js
 ```
 
-[See the original README](https://github.com/stevenschobert/instafeed.js) fo more informations.
+[See the original README](https://github.com/stevenschobert/instafeed.js) for more informations.
 
 ## Requirements
 
