@@ -5,6 +5,8 @@ This is a fork of [instafeed.js](https://github.com/stevenschobert/instafeed.js)
 
 **NOTE**: I created this fork to fix existing projects using Instafeed since Instagram changed their API. You'd better use [BitSalad.co](http://www.bitsalad.co)'s [salad-spinner](https://github.com/bitsalad/salad-spinner) if you're starting from scratch.
 
+**UPDATE (05/2019)**: BitSalad.co is dead, so this fork.
+
 ## Installation
 
 Install this fork with NPM instead of the original `instafeed.js` package:
